@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# airules - AI Rules Quick Access Tool
+
+RULES_DIR="$(dirname "$(dirname "$(dirname "$(readlink -f "$0")")")")"
+
+case "$1" in
+    ascii)
+        cat "$RULES_DIR/ascii-art/basics.md"
+        ;;
+    claude)
+        cat "$RULES_DIR/claude-code/prompts/ascii-fix.md"
+        ;;
+    list)
+        echo "Available rules:"
+        find "$RULES_DIR" -name "*.md" -type f | grep -v README | sed "s|$RULES_DIR/||" | sort
+        ;;
+    "")
+        echo "Usage: airules [command] [path]"
+        echo ""
+        echo "Commands:"
+        echo "  ascii     - Show ASCII art basics"
+        echo "  claude    - Show Claude Code rules"
+        echo "  list      - List all available rules"
+        echo "  [path]    - Show specific rule file"
+        echo ""
+        echo "Examples:"
+        echo "  airules ascii"
+        echo "  airules ascii-art/tables.md"
+        ;;
+    *)
+        # Try to find and display the requested file
+        if [ -f "$RULES_DIR/$1" ]; then
+            cat "$RULES_DIR/$1"
+        elif [ -f "$RULES_DIR/$1.md" ]; then
+            cat "$RULES_DIR/$1.md"
+        else
+            echo "Rule not found: $1"
+            echo "Use 'airules list' to see available rules"
+        fi
+        ;;
+esac
