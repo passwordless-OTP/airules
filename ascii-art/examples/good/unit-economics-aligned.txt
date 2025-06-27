@@ -1,0 +1,17 @@
+┌─────────────────────────────────────────────────────────────┐
+│                    Unit Economics Model                     │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  Customer Acquisition Cost (CAC)                            │
+│  ─────────────────────────────────────────────────────────  │
+│  App Store Keywords (proven):     $10                       │
+│  App Store Organic:               $0                        │
+│  Merchant Referrals:              $15                       │
+│  Weighted Blended CAC:            $25                       │
+└─────────────────────────────────────────────────────────────┘
+
+Perfect:
+- All lines exactly 63 characters
+- Values aligned at column 36
+- Section separators span full width
+- Consistent spacing throughout
