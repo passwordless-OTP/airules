@@ -66,6 +66,35 @@ When adding new documentation:
 3. New files are automatically discoverable by `airules list`
 4. Consider adding examples in the `examples/` subdirectories
 
+## Coding Rules for Different Tech Stacks
+
+The repository includes specific coding guidelines for different technology stacks:
+
+1. **coding-rules/shopify-php-laravel/** - Shopify apps with PHP Laravel on Cloudways
+   - Laravel best practices for Shopify integration
+   - Cloudways deployment and optimization
+   - Webhook handling and API rate limiting
+   - Database patterns for Shopify data
+
+2. **coding-rules/node-postgres/** - Node.js apps with PostgreSQL on DigitalOcean
+   - PostgreSQL connection patterns and security
+   - DigitalOcean deployment with PM2
+   - Managed database configuration
+   - Performance optimization and monitoring
+
+3. **coding-rules/gadget-dev/** - Gadget.dev platform applications
+   - Gadget's serverless architecture patterns
+   - Model actions and API usage
+   - Built-in Shopify integration
+   - Frontend patterns with React
+
+Access these rules using:
+```bash
+./tools/bin/airules coding-rules/shopify-php-laravel/CLAUDE.md
+./tools/bin/airules coding-rules/node-postgres/CLAUDE.md
+./tools/bin/airules coding-rules/gadget-dev/CLAUDE.md
+```
+
 ## ASCII Art Guidelines for Claude
 
 When creating ASCII art diagrams in ANY codebase, follow these rules:
