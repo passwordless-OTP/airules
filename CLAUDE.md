@@ -95,6 +95,43 @@ Access these rules using:
 ./tools/bin/airules coding-rules/gadget-dev/CLAUDE.md
 ```
 
+## Testing Guidelines
+
+The repository includes comprehensive testing patterns and best practices:
+
+1. **testing/** - Root directory for all testing guidelines
+   - Main testing overview and principles
+   
+2. **testing/unit/** - Unit testing patterns
+   - JavaScript/TypeScript with Jest
+   - PHP Laravel with PHPUnit
+   - Mocking strategies and test utilities
+
+3. **testing/integration/** - Integration testing
+   - Database testing with transactions
+   - API integration testing
+   - Test data management strategies
+
+4. **testing/e2e/** - End-to-end testing with Playwright
+   - **Persistent authentication profiles** to avoid repeated logins
+   - Page Object Model patterns
+   - Mobile testing strategies
+   - Visual regression testing
+
+5. **testing/performance/** - Performance and load testing
+   - k6 for load testing
+   - Artillery for API performance
+   - Database performance testing
+   - Memory profiling and monitoring
+
+Access testing guides:
+```bash
+./tools/bin/airules testing/CLAUDE.md
+./tools/bin/airules testing/unit/patterns.md
+./tools/bin/airules testing/e2e/playwright-guide.md
+./tools/bin/airules testing/performance/load-testing.md
+```
+
 ## ASCII Art Guidelines for Claude
 
 When creating ASCII art diagrams in ANY codebase, follow these rules:
