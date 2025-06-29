@@ -132,6 +132,55 @@ Access testing guides:
 ./tools/bin/airules testing/performance/load-testing.md
 ```
 
+## Git/GitHub Automation Rules
+
+The repository includes comprehensive Git/GitHub automation strategies:
+
+1. **git-github/** - AUTOMATE OR DIE philosophy
+   - Zero manual work approach
+   - Maximum automation efficiency
+
+2. **git-github/project-management/** - GitHub Projects automation
+   - Auto-create project boards from templates
+   - Issues auto-create project items
+   - PRs auto-link to issues
+   - Sprint planning automation
+   - Daily standup reports
+   - Velocity tracking
+
+3. **git-github/automation/** - Complete automation scripts
+   - Auto-PR descriptions from commits
+   - Auto-merge when checks pass
+   - Auto-release creation
+   - Auto-dependency updates
+   - Auto-issue creation from errors
+   - Auto-documentation generation
+
+4. **git-github/workflows/** - CI/CD pipelines
+   - Multi-environment deployments
+   - Parallel testing strategies
+   - Security scanning
+   - Performance monitoring
+   - Auto-rollback on failures
+   - Post-deployment monitoring
+
+5. **git-github/branch-strategies/** - Automated Git flow
+   - Branch protection rules
+   - Auto-create branches from issues
+   - Auto-sync branches
+   - Auto-cleanup merged branches
+   - Commit message enforcement
+
+Access Git/GitHub automation:
+```bash
+./tools/bin/airules git-github/project-management/github-projects.md
+./tools/bin/airules git-github/automation/auto-everything.md
+./tools/bin/airules git-github/workflows/ci-cd-pipelines.md
+./tools/bin/airules git-github/branch-strategies/gitflow-automated.md
+```
+
+**Core Principle: If a human does it more than once, a robot should do it forever.**
+
 ## ASCII Art Guidelines for Claude
 
 When creating ASCII art diagrams in ANY codebase, follow these rules:
