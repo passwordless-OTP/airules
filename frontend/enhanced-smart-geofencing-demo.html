@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Smart Geofencing Demo - Shopify Polaris</title>
+    
+    <!-- Shopify Polaris CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/@shopify/polaris@12.0.0/build/esm/styles.css" />
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
+            background-color: #f6f6f7;
+        }
+        
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .setup-choice-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .setup-option {
+            background: white;
+            border: 2px solid #e1e3e5;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .setup-option:hover {
+            border-color: #008060;
+            box-shadow: 0 4px 12px rgba(0, 128, 96, 0.1);
+        }
+        
+        .setup-option.recommended {
+            border-color: #008060;
+            background: linear-gradient(135deg, #f0fdf4 0%, #f6f9f6 100%);
+        }
+        
+        .setup-option .badge {
+            position: absolute;
+            top: -8px;
+            right: 16px;
+            background: #008060;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .stage-indicator {
+            background: white;
+            border: 1px solid #e1e3e5;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .breadcrumb-nav {
+            background: white;
+            border: 1px solid #e1e3e5;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .breadcrumb-item {
+            color: #008060;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .breadcrumb-item:hover {
+            text-decoration: underline;
+        }
+        
+        .breadcrumb-separator {
+            color: #6d7175;
+            margin: 0 4px;
+        }
+        
+        .progress-bar {
+            background-color: #e1e3e5;
+            border-radius: 4px;
+            height: 8px;
+            flex: 1;
+            margin: 0 20px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background-color: #008060;
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .card {
+            background: white;
+            border: 1px solid #e1e3e5;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            padding: 20px;
+            border-bottom: 1px solid #e1e3e5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .card-section {
+            padding: 20px;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+            color: #202223;
+        }
+        
+        .help-button {
+            background: none;
+            border: 1px solid #e1e3e5;
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: #6d7175;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .help-button:hover {
+            background-color: #f6f6f7;
+        }
+        
+        .time-estimate {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #6d7175;
+            font-size: 14px;
+        }
+        
+        .industry-insight {
+            background: #f0fdf4;
+            border: 1px solid #22c55e;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .industry-insight .title {
+            font-weight: 600;
+            color: #365314;
+            margin-bottom: 4px;
+        }
+        
+        .resource-list-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f2f3;
+        }
+        
+        .resource-list-item:last-child {
+            border-bottom: none;
+        }
+        
+        .country-flag {
+            width: 32px;
+            height: 24px;
+            border-radius: 4px;
+            margin-right: 12px;
+        }
+        
+        .resource-content {
+            flex: 1;
+        }
+        
+        .resource-title {
+            font-weight: 500;
+            color: #202223;
+            margin: 0 0 2px 0;
+        }
+        
+        .resource-subtitle {
+            color: #6d7175;
+            font-size: 13px;
+            margin: 0;
+        }
+        
+        .badge {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        
+        .badge-success {
+            background-color: #d1f7c4;
+            color: #365314;
+        }
+        
+        .badge-critical {
+            background-color: #fed7d7;
+            color: #b91c1c;
+        }
+        
+        .badge-warning {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .callout-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 32px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .callout-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .callout-description {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+        
+        .button {
+            background-color: #008060;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .button:hover {
+            background-color: #006847;
+        }
+        
+        .button-outline {
+            background-color: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: white;
+            margin-right: 12px;
+        }
+        
+        .button-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .button-back {
+            background-color: #f6f6f7;
+            color: #202223;
+            border: 1px solid #e1e3e5;
+        }
+        
+        .button-back:hover {
+            background-color: #e1e3e5;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #008060;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .test-result {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border: 1px solid #e1e3e5;
+        }
+        
+        .test-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+        }
+        
+        .test-success {
+            background-color: #f0fdf4;
+            border-color: #22c55e;
+        }
+        
+        .test-failure {
+            background-color: #fef2f2;
+            border-color: #ef4444;
+        }
+        
+        .banner {
+            padding: 16px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .banner-success {
+            background-color: #d1f7c4;
+            border: 1px solid #22c55e;
+            color: #365314;
+        }
+        
+        .banner-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .protection-summary {
+            background: #f6f6f7;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .two-column, .setup-choice-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stage-indicator {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .progress-bar {
+                margin: 12px 0;
+            }
+            
+            .breadcrumb-nav {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <!-- Enhanced Progress Indicator -->
+        <div class="stage-indicator">
+            <div>
+                <h2 style="margin: 0; color: #202223;">Smart Geofencing Setup</h2>
+                <p style="margin: 4px 0 0 0; color: #6d7175;" id="stageDescription">Choose your setup experience</p>
+            </div>
+            <div class="time-estimate">
+                <span style="font-size: 16px;">⏱️</span>
+                <span id="timeEstimate">30 seconds</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 10%"></div>
+            </div>
+            <div>
+                <span style="color: #6d7175;">Step <span id="currentStep">1</span> of 5</span>
+            </div>
+        </div>
+
+        <!-- Breadcrumb Navigation -->
+        <div class="breadcrumb-nav hidden" id="breadcrumbNav">
+            <a href="#" class="breadcrumb-item" onclick="showStage(1)">Setup Choice</a>
+            <span class="breadcrumb-separator">›</span>
+            <a href="#" class="breadcrumb-item" onclick="showStage(2)">Store Analysis</a>
+            <span class="breadcrumb-separator hidden" id="geographySeparator">›</span>
+            <a href="#" class="breadcrumb-item hidden" id="geographyBreadcrumb" onclick="showStage(3)">Geography Report</a>
+            <span class="breadcrumb-separator">›</span>
+            <a href="#" class="breadcrumb-item" onclick="showStage(4)">Smart Blocking</a>
+            <span class="breadcrumb-separator">›</span>
+            <a href="#" class="breadcrumb-item" onclick="showStage(5)">Live Verification</a>
+        </div>
+
+        <!-- Stage 1: Setup Choice -->
+        <div id="stage1" class="stage">
+            <div class="card">
+                <div class="card-section">
+                    <h3 style="text-align: center; margin-bottom: 8px;">Choose Your Setup Experience</h3>
+                    <p style="text-align: center; color: #6d7175; margin-bottom: 32px;">We can set up your protection in two ways. Choose what works best for you:</p>
+                    
+                    <div class="setup-choice-grid">
+                        <div class="setup-option recommended" onclick="selectSetupMode('guided')">
+                            <div class="badge">Recommended</div>
+                            <div style="font-size: 32px; margin-bottom: 16px;">⚙️</div>
+                            <h4 style="margin: 0 0 12px 0;">Guided Setup</h4>
+                            <p style="color: #6d7175; margin-bottom: 16px;">Complete analysis of your store with personalized recommendations based on your industry</p>
+                            <div class="time-estimate" style="justify-content: center; margin-bottom: 16px;">
+                                <span>⏱️</span>
+                                <span>3-5 minutes</span>
+                            </div>
+                            <ul style="text-align: left; color: #6d7175; font-size: 14px; padding-left: 20px;">
+                                <li>Industry-specific recommendations</li>
+                                <li>Detailed threat analysis</li>
+                                <li>Customer geography insights</li>
+                                <li>Advanced customization options</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="setup-option" onclick="selectSetupMode('express')">
+                            <div style="font-size: 32px; margin-bottom: 16px;">🌍</div>
+                            <h4 style="margin: 0 0 12px 0;">Express Setup</h4>
+                            <p style="color: #6d7175; margin-bottom: 16px;">Quick setup with industry-standard security recommendations</p>
+                            <div class="time-estimate" style="justify-content: center; margin-bottom: 16px;">
+                                <span>⏱️</span>
+                                <span>1-2 minutes</span>
+                            </div>
+                            <ul style="text-align: left; color: #6d7175; font-size: 14px; padding-left: 20px;">
+                                <li>Standard protection settings</li>
+                                <li>Top 5 threat countries blocked</li>
+                                <li>Basic testing verification</li>
+                                <li>Get protected immediately</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stage 2: Store Analysis -->
+        <div id="stage2" class="stage hidden">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h3 class="card-title">Analyzing Your Store</h3>
+                    </div>
+                    <button class="help-button" onclick="showHelp('analysis')">
+                        ❓ Help
+                    </button>
+                </div>
+                <div class="card-section" style="text-align: center; padding: 60px 20px;">
+                    <div class="spinner"></div>
+                    <h3 style="margin: 24px 0 12px 0; color: #202223;" id="analysisTitle">Analyzing your store data</h3>
+                    <p style="color: #6d7175; margin-bottom: 32px;" id="analysisSubtitle">Scanning customer locations and order history to understand your business geography...</p>
+                    <div style="max-width: 400px; margin: 0 auto;">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="analysisProgress" style="width: 10%"></div>
+                        </div>
+                        <p style="color: #6d7175; font-size: 13px; margin-top: 8px;" id="analysisStatus">Connecting to Shopify...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stage 3: Geography Report (Guided Mode Only) -->
+        <div id="stage3" class="stage hidden">
+            <div class="card">
+                <div class="card-header">
+                    <button class="button button-back" onclick="showStage(2)">← Back to Analysis</button>
+                    <div>
+                        <h3 class="card-title">Geography Intelligence Report</h3>
+                    </div>
+                    <button class="help-button" onclick="showHelp('geography')">
+                        ❓ Help
+                    </button>
+                </div>
+            </div>
+            
+            <div class="industry-insight">
+                <div class="title">💡 Fashion Industry Insight</div>
+                <p style="margin: 0; color: #365314;">Fashion stores see 3x more counterfeit attempts from specific regions. Your store profile suggests blocking 8 countries for optimal protection.</p>
+            </div>
+            
+            <div class="two-column">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Countries You Serve (4)</h3>
+                    </div>
+                    <div class="card-section">
+                        <div class="resource-list-item">
+                            <img src="https://flagcdn.com/w40/us.png" alt="US" class="country-flag">
+                            <div class="resource-content">
+                                <p class="resource-title">United States</p>
+                                <p class="resource-subtitle">547 customers, $89,420 revenue</p>
+                            </div>
+                            <span class="badge badge-success">Protected</span>
+                        </div>
+                        <div class="resource-list-item">
+                            <img src="https://flagcdn.com/w40/gb.png" alt="GB" class="country-flag">
+                            <div class="resource-content">
+                                <p class="resource-title">United Kingdom</p>
+                                <p class="resource-subtitle">189 customers, $31,250 revenue</p>
+                            </div>
+                            <span class="badge badge-success">Protected</span>
+                        </div>
+                        <div class="resource-list-item">
+                            <img src="https://flagcdn.com/w40/ca.png" alt="CA" class="country-flag">
+                            <div class="resource-content">
+                                <p class="resource-title">Canada</p>
+                                <p class="resource-subtitle">167 customers, $27,890 revenue</p>
+                            </div>
+                            <span class="badge badge-success">Protected</span>
+                        </div>
+                        <div class="resource-list-item">
+                            <img src="https://flagcdn.com/w40/au.png" alt="AU" class="country-flag">
+                            <div class="resource-content">
+                                <p class="resource-title">Australia</p>
+                                <p class="resource-subtitle">134 customers, $22,340 revenue</p>
+                            </div>
+                            <span class="badge badge-success">Protected</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Attack Sources (8 threats)</h3>
+                    </div>
+                    <div class="card-section">
+                        <div class="resource-list-item">
+                            <div style="width: 32px; height: 24px; background-color: #ef4444; border-radius: 4px; margin-right: 12px; display: flex; align-items: center; justify-content: center;">
+                                <span style="color: white; font-size: 12px;">⚠️</span>
+                            </div>
+                            <div class="resource-content">
+                                <p class="resource-title">China</p>
+                                <p class="resource-subtitle">1,247 attacks, 94.2% fraud rate</p>
+                            </div>
+                            <span class="badge badge-critical">Critical</span>
+                        </div>
+                        <div class="resource-list-item">
+                            <div style="width: 32px; height: 24px; background-color: #ef4444; border-radius: 4px; margin-right: 12px; display: flex; align-items: center; justify-content: center;">
+                                <span style="color: white; font-size: 12px;">⚠️</span>
+                            </div>
+                            <div class="resource-content">
+                                <p class="resource-title">Russia</p>
+                                <p class="resource-subtitle">892 attacks, 91.8% fraud rate</p>
+                            </div>
+                            <span class="badge badge-critical">Critical</span>
+                        </div>
+                        <div class="resource-list-item">
+                            <div style="width: 32px; height: 24px; background-color: #f59e0b; border-radius: 4px; margin-right: 12px; display: flex; align-items: center; justify-content: center;">
+                                <span style="color: white; font-size: 12px;">⚠️</span>
+                            </div>
+                            <div class="resource-content">
+                                <p class="resource-title">Vietnam</p>
+                                <p class="resource-subtitle">634 attacks, 87.3% fraud rate</p>
+                            </div>
+                            <span class="badge badge-warning">High</span>
+                        </div>
+                        <div class="resource-list-item">
+                            <div style="width: 32px; height: 24px; background-color: #f59e0b; border-radius: 4px; margin-right: 12px; display: flex; align-items: center; justify-content: center;">
+                                <span style="color: white; font-size: 12px;">⚠️</span>
+                            </div>
+                            <div class="resource-content">
+                                <p class="resource-title">Nigeria</p>
+                                <p class="resource-subtitle">567 attacks, 85.9% fraud rate</p>
+                            </div>
+                            <span class="badge badge-warning">High</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-section" style="text-align: right;">
+                    <button class="button" onclick="moveToStage4()">Continue to Smart Blocking →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stage 4: Smart Recommendations -->
+        <div id="stage4" class="stage hidden">
+            <div class="card">
+                <div class="card-header">
+                    <button class="button button-back" id="backButton4" onclick="goBackFromRecommendations()">← Back</button>
+                    <div>
+                        <h3 class="card-title">Smart Protection Configuration</h3>
+                    </div>
+                    <div class="time-estimate">
+                        <span>⏱️</span>
+                        <span>~2 minutes remaining</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="callout-card">
+                <h2 class="callout-title" id="calloutTitle">Smart Geofencing for Fashion Store</h2>
+                <p class="callout-description" id="calloutDescription">
+                    Block 8 countries sending attacks with zero customers based on fashion industry patterns.<br>
+                    This will stop 4,321 attack attempts per month and save an estimated $3,154.
+                </p>
+                <button class="button button-outline" onclick="customizeSettings()">Customize Settings</button>
+                <button class="button" onclick="moveToStage5()">Apply Protection</button>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Recommended Countries to Block</h3>
+                </div>
+                <div class="card-section">
+                    <div style="display: grid; gap: 12px;" id="countryRecommendations">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                    
+                    <div class="protection-summary">
+                        <div>
+                            <p style="margin: 0; font-size: 13px; color: #6d7175;">Protection Summary</p>
+                            <p style="margin: 0; font-weight: 500;" id="protectionSummary">8 countries blocked</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <p style="margin: 0; font-size: 13px; color: #6d7175;">Estimated Savings</p>
+                            <p style="margin: 0; font-weight: 500; color: #008060;" id="estimatedSavings">$3,154/month</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stage 5: Live Testing -->
+        <div id="stage5" class="stage hidden">
+            <div class="card">
+                <div class="card-header">
+                    <button class="button button-back" onclick="showStage(4)">← Back to Settings</button>
+                    <div>
+                        <h3 class="card-title">Live Protection Verification</h3>
+                    </div>
+                    <div class="time-estimate" id="testingTimeEstimate">
+                        <span>⏱️</span>
+                        <span>~1 minute remaining</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-section">
+                    <div id="testingInProgress">
+                        <div style="text-align: center; padding: 40px 20px;">
+                            <div class="spinner"></div>
+                            <h4 style="margin: 24px 0 8px 0; color: #202223;">Running live tests...</h4>
+                            <p style="color: #6d7175; margin: 0;" id="testingDescription">Using VPN connections to verify blocking works from 8 countries</p>
+                        </div>
+                    </div>
+                    
+                    <div id="testResults" class="hidden">
+                        <!-- Test results will be populated by JavaScript -->
+                        
+                        <div class="banner banner-success" id="successBanner" style="display: none;">
+                            <div class="banner-title">🎉 Protection is working perfectly!</div>
+                            <p style="margin: 4px 0 0 0;" id="successMessage">Your store is now protected from fraudulent traffic. 8 countries successfully blocked.</p>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+                            <button class="button button-back" onclick="showAdvancedSettings()">Advanced Settings</button>
+                            <button class="button" onclick="completeSetup()">Complete Setup & Go to Dashboard</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStage = 1;
+        let setupMode = 'guided';
+        let selectedCountries = [];
+        
+        const stageData = {
+            1: { title: 'Setup Choice', description: 'Choose your setup experience', timeEstimate: '30 seconds', progress: 10 },
+            2: { title: 'Store Analysis', description: 'Analyzing your customer data', timeEstimate: '1 minute', progress: 25 },
+            3: { title: 'Geography Report', description: 'Understanding your business geography', timeEstimate: '1 minute', progress: 50 },
+            4: { title: 'Smart Blocking', description: 'Configuring your protection', timeEstimate: '2 minutes', progress: 75 },
+            5: { title: 'Live Verification', description: 'Verifying protection works', timeEstimate: '1 minute', progress: 100 }
+        };
+        
+        const countryData = {
+            guided: [
+                { code: 'CN', name: 'China', attacks: 1247, fraudRate: 94.2, risk: 'Critical' },
+                { code: 'RU', name: 'Russia', attacks: 892, fraudRate: 91.8, risk: 'Critical' },
+                { code: 'VN', name: 'Vietnam', attacks: 634, fraudRate: 87.3, risk: 'High' },
+                { code: 'NG', name: 'Nigeria', attacks: 567, fraudRate: 85.9, risk: 'High' },
+                { code: 'PK', name: 'Pakistan', attacks: 489, fraudRate: 82.4, risk: 'High' },
+                { code: 'BD', name: 'Bangladesh', attacks: 423, fraudRate: 79.8, risk: 'Medium' },
+                { code: 'IN', name: 'India', attacks: 389, fraudRate: 76.2, risk: 'Medium' },
+                { code: 'BR', name: 'Brazil', attacks: 356, fraudRate: 74.1, risk: 'Medium' }
+            ],
+            express: [
+                { code: 'CN', name: 'China', attacks: 1247, fraudRate: 94.2, risk: 'Critical' },
+                { code: 'RU', name: 'Russia', attacks: 892, fraudRate: 91.8, risk: 'Critical' },
+                { code: 'VN', name: 'Vietnam', attacks: 634, fraudRate: 87.3, risk: 'High' },
+                { code: 'NG', name: 'Nigeria', attacks: 567, fraudRate: 85.9, risk: 'High' },
+                { code: 'PK', name: 'Pakistan', attacks: 489, fraudRate: 82.4, risk: 'High' }
+            ]
+        };
+        
+        function updateStageIndicator(stage) {
+            const data = stageData[stage];
+            document.getElementById('stageDescription').textContent = data.description;
+            document.getElementById('timeEstimate').textContent = data.timeEstimate;
+            document.getElementById('progressFill').style.width = data.progress + '%';
+            document.getElementById('currentStep').textContent = stage;
+        }
+        
+        function updateBreadcrumbs(stage) {
+            const nav = document.getElementById('breadcrumbNav');
+            if (stage > 1) {
+                nav.classList.remove('hidden');
+                
+                // Show/hide geography breadcrumb based on mode
+                if (setupMode === 'express') {
+                    document.getElementById('geographySeparator').classList.add('hidden');
+                    document.getElementById('geographyBreadcrumb').classList.add('hidden');
+                } else {
+                    document.getElementById('geographySeparator').classList.remove('hidden');
+                    document.getElementById('geographyBreadcrumb').classList.remove('hidden');
+                }
+            } else {
+                nav.classList.add('hidden');
+            }
+        }
+        
+        function showStage(stageNumber) {
+            // Hide all stages
+            for (let i = 1; i <= 5; i++) {
+                const stage = document.getElementById(`stage${i}`);
+                if (stage) {
+                    stage.classList.add('hidden');
+                }
+            }
+            
+            // Show current stage
+            const currentStageElement = document.getElementById(`stage${stageNumber}`);
+            if (currentStageElement) {
+                currentStageElement.classList.remove('hidden');
+            }
+            
+            currentStage = stageNumber;
+            updateStageIndicator(stageNumber);
+            updateBreadcrumbs(stageNumber);
+        }
+        
+        function selectSetupMode(mode) {
+            setupMode = mode;
+            selectedCountries = countryData[mode];
+            
+            if (mode === 'express') {
+                showStage(2);
+                setTimeout(() => runExpressAnalysis(), 1000);
+            } else {
+                showStage(2);
+                setTimeout(() => runGuidedAnalysis(), 1000);
+            }
+        }
+        
+        function runExpressAnalysis() {
+            const progress = document.getElementById('analysisProgress');
+            const status = document.getElementById('analysisStatus');
+            const title = document.getElementById('analysisTitle');
+            const subtitle = document.getElementById('analysisSubtitle');
+            
+            title.textContent = 'Express analysis in progress';
+            subtitle.textContent = 'Using standard threat intelligence patterns...';
+            
+            let progressValue = 10;
+            const statusMessages = [
+                'Loading threat database...',
+                'Applying industry standards...',
+                'Generating recommendations...'
+            ];
+            
+            const interval = setInterval(() => {
+                progressValue += 30;
+                progress.style.width = progressValue + '%';
+                
+                if (progressValue === 40) {
+                    status.textContent = statusMessages[1];
+                } else if (progressValue === 70) {
+                    status.textContent = statusMessages[2];
+                } else if (progressValue >= 100) {
+                    status.textContent = 'Express analysis complete!';
+                    clearInterval(interval);
+                    
+                    setTimeout(() => {
+                        showStage(4); // Skip geography for express
+                        populateRecommendations();
+                    }, 1000);
+                }
+            }, 600);
+        }
+        
+        function runGuidedAnalysis() {
+            const progress = document.getElementById('analysisProgress');
+            const status = document.getElementById('analysisStatus');
+            
+            let progressValue = 10;
+            const statusMessages = [
+                'Connecting to Shopify...',
+                'Analyzing customer data...',
+                'Processing threat intelligence...',
+                'Detecting industry patterns...',
+                'Generating recommendations...'
+            ];
+            
+            const interval = setInterval(() => {
+                progressValue += 20;
+                progress.style.width = progressValue + '%';
+                
+                if (progressValue === 30) {
+                    status.textContent = statusMessages[1];
+                } else if (progressValue === 50) {
+                    status.textContent = statusMessages[2];
+                } else if (progressValue === 70) {
+                    status.textContent = statusMessages[3];
+                } else if (progressValue === 90) {
+                    status.textContent = statusMessages[4];
+                } else if (progressValue >= 100) {
+                    status.textContent = 'Analysis complete!';
+                    clearInterval(interval);
+                    
+                    setTimeout(() => {
+                        showStage(3); // Show geography for guided
+                    }, 1000);
+                }
+            }, 800);
+        }
+        
+        function moveToStage4() {
+            showStage(4);
+            populateRecommendations();
+        }
+        
+        function goBackFromRecommendations() {
+            if (setupMode === 'express') {
+                showStage(2);
+            } else {
+                showStage(3);
+            }
+        }
+        
+        function populateRecommendations() {
+            const container = document.getElementById('countryRecommendations');
+            const countries = countryData[setupMode];
+            
+            // Update callout
+            document.getElementById('calloutTitle').textContent = 
+                setupMode === 'guided' ? 'Smart Geofencing for Fashion Store' : 'Express Geofencing Protection';
+            document.getElementById('calloutDescription').innerHTML = 
+                `Block ${countries.length} countries sending attacks with zero customers ${setupMode === 'guided' ? 'based on fashion industry patterns' : 'using standard protection'}.<br>
+                This will stop ${countries.reduce((sum, c) => sum + c.attacks, 0).toLocaleString()} attack attempts per month and save an estimated $${Math.floor(countries.reduce((sum, c) => sum + c.attacks, 0) * 0.73).toLocaleString()}.`;
+            
+            // Update summary
+            document.getElementById('protectionSummary').textContent = `${countries.length} countries blocked`;
+            document.getElementById('estimatedSavings').textContent = `$${Math.floor(countries.reduce((sum, c) => sum + c.attacks, 0) * 0.73).toLocaleString()}/month`;
+            
+            // Populate countries
+            container.innerHTML = countries.map(country => `
+                <label style="display: flex; align-items: center; padding: 12px; border: 1px solid #e1e3e5; border-radius: 8px; cursor: pointer;">
+                    <input type="checkbox" checked style="margin-right: 12px;">
+                    <div style="flex: 1;">
+                        <strong>${country.name} (${country.attacks.toLocaleString()} attacks)</strong>
+                        <br><small style="color: #6d7175;">${country.fraudRate}% fraud rate - 0 customers</small>
+                    </div>
+                    <span class="badge badge-${country.risk.toLowerCase() === 'critical' ? 'critical' : country.risk.toLowerCase() === 'high' ? 'warning' : 'warning'}">${country.risk}</span>
+                </label>
+            `).join('');
+        }
+        
+        function moveToStage5() {
+            showStage(5);
+            setTimeout(() => runLiveTests(), 1000);
+        }
+        
+        function runLiveTests() {
+            const testingProgress = document.getElementById('testingInProgress');
+            const testResults = document.getElementById('testResults');
+            const successBanner = document.getElementById('successBanner');
+            const testingDescription = document.getElementById('testingDescription');
+            const timeEstimate = document.getElementById('testingTimeEstimate');
+            
+            const countries = countryData[setupMode];
+            testingDescription.textContent = `Using VPN connections to verify blocking works from ${countries.length} countries`;
+            
+            // Simulate testing process
+            setTimeout(() => {
+                testingProgress.classList.add('hidden');
+                
+                // Generate test results
+                testResults.innerHTML = countries.map(country => `
+                    <div class="test-result test-success">
+                        <span class="test-icon" style="color: #22c55e;">✅</span>
+                        <div style="flex: 1;">
+                            <p style="margin: 0; font-weight: 500;">Testing from ${country.name}</p>
+                            <p style="margin: 0; color: #6d7175; font-size: 13px;">Successfully blocked (503) - Store protected</p>
+                        </div>
+                        <span class="badge badge-success">Blocked</span>
+                    </div>
+                `).join('');
+                
+                testResults.classList.remove('hidden');
+                timeEstimate.innerHTML = '<span>⏱️</span><span>Ready to complete</span>';
+                
+                // Show success banner
+                setTimeout(() => {
+                    document.getElementById('successMessage').textContent = 
+                        `Your store is now protected from fraudulent traffic. ${countries.length} countries successfully blocked.`;
+                    successBanner.style.display = 'block';
+                }, 500);
+            }, 3000);
+        }
+        
+        function completeSetup() {
+            const countries = countryData[setupMode];
+            const totalAttacks = countries.reduce((sum, c) => sum + c.attacks, 0);
+            const savings = Math.floor(totalAttacks * 0.73);
+            
+            alert(`🎉 Smart Geofencing setup complete!\n\nYour store is now protected with:\n✅ ${countries.length} high-risk countries blocked\n✅ Live verification confirmed\n✅ ${totalAttacks.toLocaleString()} monthly attacks prevented\n✅ $${savings.toLocaleString()} estimated monthly savings\n\nSetup mode: ${setupMode === 'guided' ? 'Guided (with industry insights)' : 'Express (standard protection)'}`);
+        }
+        
+        function customizeSettings() {
+            alert('Customization interface would allow you to:\n• Add/remove countries from blocklist\n• Set custom blocking rules\n• Configure whitelist exceptions\n• Adjust protection levels\n• Set industry-specific thresholds');
+        }
+        
+        function showAdvancedSettings() {
+            alert('Advanced settings would include:\n• Custom blocking rules\n• Whitelist management\n• Monitoring thresholds\n• Alert preferences\n• Integration settings\n• Analytics configuration');
+        }
+        
+        function showHelp(topic) {
+            const helpMessages = {
+                analysis: 'Store analysis examines your customer data to understand:\n• Geographic distribution of customers\n• Revenue patterns by country\n• Order history and patterns\n• Industry-specific risk factors',
+                geography: 'Geography report shows:\n• Countries where you have customers (always protected)\n• Countries with no customers but high attack rates\n• Industry-specific threat patterns\n• Personalized blocking recommendations'
+            };
+            
+            alert(helpMessages[topic] || 'Help information not available.');
+        }
+        
+        // Initialize the demo
+        window.onload = function() {
+            updateStageIndicator(1);
+        };
+    </script>
+</body>
+</html>
