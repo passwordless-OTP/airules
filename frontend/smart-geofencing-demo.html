@@ -92,10 +92,26 @@
             align-items: center;
             padding: 12px 0;
             border-bottom: 1px solid #f1f2f3;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 8px;
+            margin: 0 -8px;
+            padding-left: 8px;
+            padding-right: 8px;
         }
         
         .resource-list-item:last-child {
             border-bottom: none;
+        }
+        
+        .resource-list-item:hover {
+            background-color: #f8fafc;
+            transform: translateX(4px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .resource-list-item.threat-source:hover {
+            background-color: #fef2f2;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.1);
         }
         
         .country-flag {
@@ -180,11 +196,13 @@
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .button:hover {
             background-color: var(--polaris-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 128, 96, 0.2);
         }
         
         .button-secondary {
@@ -196,11 +214,13 @@
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .button-secondary:hover {
             background-color: var(--securify-yellow-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
         }
         
         .button-outline {
@@ -219,6 +239,8 @@
         .button-outline:hover {
             background-color: var(--securify-yellow);
             color: #1f2937;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(251, 191, 36, 0.2);
         }
         
         .two-column {
@@ -241,6 +263,84 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        
+        /* Enhanced Animations */
+        @keyframes slideInUp {
+            0% { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes countUp {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 5px rgba(239, 68, 68, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(239, 68, 68, 0.6); }
+        }
+        
+        @keyframes celebrate {
+            0% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.05) rotate(1deg); }
+            50% { transform: scale(1.1) rotate(-1deg); }
+            75% { transform: scale(1.05) rotate(1deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+        
+        @keyframes fadeInScale {
+            0% { 
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            100% { 
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* Card entrance animations */
+        .card {
+            animation: slideInUp 0.6s ease-out;
+        }
+        
+        .card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        
+        .card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+        
+        /* Respect user's reduced motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            .card {
+                animation: none;
+            }
+            
+            .button:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            
+            .resource-list-item:hover {
+                transform: none;
+            }
+            
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
         }
         
         .test-result {
@@ -388,7 +488,7 @@
                         <h3 class="card-title">Attack Sources (No Customers)</h3>
                     </div>
                     <div class="card-section">
-                        <div class="resource-list-item">
+                        <div class="resource-list-item threat-source">
                             <img src="https://flagcdn.com/w40/cn.png" alt="CN" class="country-flag">
                             <div class="resource-content">
                                 <p class="resource-title">China</p>
@@ -396,7 +496,7 @@
                             </div>
                             <span class="badge badge-critical">High Risk</span>
                         </div>
-                        <div class="resource-list-item">
+                        <div class="resource-list-item threat-source">
                             <img src="https://flagcdn.com/w40/ru.png" alt="RU" class="country-flag">
                             <div class="resource-content">
                                 <p class="resource-title">Russia</p>
@@ -404,7 +504,7 @@
                             </div>
                             <span class="badge badge-critical">High Risk</span>
                         </div>
-                        <div class="resource-list-item">
+                        <div class="resource-list-item threat-source">
                             <img src="https://flagcdn.com/w40/vn.png" alt="VN" class="country-flag">
                             <div class="resource-content">
                                 <p class="resource-title">Vietnam</p>
@@ -412,7 +512,7 @@
                             </div>
                             <span class="badge badge-warning">Medium Risk</span>
                         </div>
-                        <div class="resource-list-item">
+                        <div class="resource-list-item threat-source">
                             <img src="https://flagcdn.com/w40/ng.png" alt="NG" class="country-flag">
                             <div class="resource-content">
                                 <p class="resource-title">Nigeria</p>
@@ -435,9 +535,18 @@
         <div id="stage3" class="stage hidden">
             <div class="callout-card">
                 <h2 class="callout-title">🛡️ Smart Geofencing Ready</h2>
+                <div style="display: flex; justify-content: center; gap: 40px; margin: 20px 0;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 36px; font-weight: bold; color: #fbbf24;" id="threatCounter">4,321</div>
+                        <div style="font-size: 14px; opacity: 0.9;">Monthly Threats Blocked</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 36px; font-weight: bold; color: #10b981;">$3,154</div>
+                        <div style="font-size: 14px; opacity: 0.9;">Monthly Savings</div>
+                    </div>
+                </div>
                 <p class="callout-description">
-                    Block 7 countries sending attacks with zero customers.<br>
-                    This will stop 4,321 attack attempts per month and save an estimated $3,154.
+                    Block 7 countries sending attacks with zero customers and protect your revenue automatically.
                 </p>
                 <button class="button-outline" onclick="customizeSettings()">Customize Settings</button>
                 <button class="button" onclick="moveToStage4()">Apply Protection</button>
@@ -548,22 +657,71 @@
         }
         
         function showStage(stageNumber) {
-            // Hide all stages
+            // Hide all stages with fade out
             for (let i = 1; i <= 4; i++) {
                 const stage = document.getElementById(`stage${i}`);
-                if (stage) {
-                    stage.classList.add('hidden');
+                if (stage && !stage.classList.contains('hidden')) {
+                    stage.style.opacity = '0';
+                    stage.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        stage.classList.add('hidden');
+                    }, 300);
                 }
             }
             
-            // Show current stage
-            const currentStageElement = document.getElementById(`stage${stageNumber}`);
-            if (currentStageElement) {
-                currentStageElement.classList.remove('hidden');
-            }
+            // Show current stage with fade in
+            setTimeout(() => {
+                const currentStageElement = document.getElementById(`stage${stageNumber}`);
+                if (currentStageElement) {
+                    currentStageElement.classList.remove('hidden');
+                    currentStageElement.style.opacity = '0';
+                    currentStageElement.style.transform = 'translateY(20px)';
+                    
+                    // Force reflow
+                    currentStageElement.offsetHeight;
+                    
+                    // Animate in
+                    currentStageElement.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                    currentStageElement.style.opacity = '1';
+                    currentStageElement.style.transform = 'translateY(0)';
+                }
+            }, 150);
             
             currentStage = stageNumber;
             updateProgress();
+            
+            // Animate threat counter when reaching stage 3
+            if (stageNumber === 3) {
+                animateThreatCounter();
+            }
+        }
+        
+        function animateThreatCounter() {
+            const counter = document.getElementById('threatCounter');
+            if (counter) {
+                let start = 0;
+                const end = 4321;
+                const duration = 2000;
+                const startTime = performance.now();
+                
+                function update(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    
+                    // Easing function
+                    const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+                    const current = Math.floor(start + (end - start) * easeOutCubic);
+                    
+                    counter.textContent = current.toLocaleString();
+                    counter.style.animation = 'countUp 0.3s ease-out';
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    }
+                }
+                
+                requestAnimationFrame(update);
+            }
         }
         
         function moveToStage2() {
@@ -605,39 +763,49 @@
             alert('Customization interface would allow you to:\n• Add/remove countries from blocklist\n• Set custom blocking rules\n• Configure whitelist exceptions\n• Adjust protection levels');
         }
         
-        // Start the demo with stage 1 analysis
+        // Enhanced analysis with better status indicators
         window.onload = function() {
             const analysisProgress = document.getElementById('analysisProgress');
             const analysisStatus = document.getElementById('analysisStatus');
             
             let progress = 10;
             const statusMessages = [
-                'Connecting to Shopify...',
-                'Analyzing customer data...',
-                'Processing threat intelligence...',
-                'Generating recommendations...'
+                { text: 'Connecting to Shopify...', icon: '🔗' },
+                { text: 'Analyzing customer data...', icon: '📊' },
+                { text: 'Processing threat intelligence...', icon: '🛡️' },
+                { text: 'Generating smart recommendations...', icon: '🧠' },
+                { text: 'Analysis complete!', icon: '✅' }
             ];
+            
+            let messageIndex = 0;
             
             const interval = setInterval(() => {
                 progress += 20;
                 analysisProgress.style.width = progress + '%';
+                analysisProgress.style.transition = 'width 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
                 
-                if (progress === 30) {
-                    analysisStatus.textContent = statusMessages[1];
-                } else if (progress === 50) {
-                    analysisStatus.textContent = statusMessages[2];
-                } else if (progress === 70) {
-                    analysisStatus.textContent = statusMessages[3];
-                } else if (progress >= 90) {
-                    analysisStatus.textContent = 'Analysis complete!';
+                if (messageIndex < statusMessages.length - 1) {
+                    messageIndex++;
+                    const message = statusMessages[messageIndex];
+                    analysisStatus.innerHTML = `${message.icon} ${message.text}`;
+                    analysisStatus.style.animation = 'fadeInScale 0.4s ease-out';
+                }
+                
+                if (progress >= 90) {
+                    analysisStatus.innerHTML = `${statusMessages[4].icon} ${statusMessages[4].text}`;
+                    analysisStatus.style.color = '#10b981';
+                    analysisStatus.style.fontWeight = '500';
                     clearInterval(interval);
+                    
+                    // Add celebration effect
+                    analysisProgress.style.animation = 'celebrate 0.6s ease-out';
                     
                     // Move to stage 2 after a short delay
                     setTimeout(() => {
                         moveToStage2();
-                    }, 1000);
+                    }, 1200);
                 }
-            }, 800);
+            }, 900);
         };
     </script>
 </body>
