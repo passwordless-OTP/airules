@@ -12,7 +12,7 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
     <style>
-        /* Securify Brand Colors */
+        /* Securify Brand Colors & Typography */
         :root {
             --securify-purple: #7c3aed;
             --securify-purple-hover: #6d28d9;
@@ -22,12 +22,72 @@
             --securify-yellow-light: #fde68a;
             --polaris-primary: #008060;
             --polaris-primary-hover: #006847;
+            
+            /* Typography Scale */
+            --font-size-xs: 12px;    /* Small labels, badges */
+            --font-size-sm: 13px;    /* Subtitles, secondary text */
+            --font-size-base: 14px;  /* Body text, buttons */
+            --font-size-md: 16px;    /* Card titles, descriptions */
+            --font-size-lg: 18px;    /* Section headings */
+            --font-size-xl: 20px;    /* Stage headings */
+            --font-size-2xl: 24px;   /* Callout titles */
+            --font-size-3xl: 32px;   /* Main titles */
+            --font-size-4xl: 36px;   /* Metrics/counters */
         }
         
         body {
             margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
             background-color: #f6f6f7;
+            font-size: var(--font-size-base);
+            line-height: 1.5;
+        }
+        
+        /* Typography Utility Classes */
+        .text-4xl { 
+            font-size: var(--font-size-4xl); 
+            line-height: 1.1; 
+            font-weight: 700;
+        }
+        .text-3xl { 
+            font-size: var(--font-size-3xl); 
+            line-height: 1.2; 
+            font-weight: 600;
+        }
+        .text-2xl { 
+            font-size: var(--font-size-2xl); 
+            line-height: 1.3; 
+            font-weight: 600;
+        }
+        .text-xl { 
+            font-size: var(--font-size-xl); 
+            line-height: 1.4; 
+            font-weight: 600;
+        }
+        .text-lg { 
+            font-size: var(--font-size-lg); 
+            line-height: 1.4; 
+            font-weight: 500;
+        }
+        .text-md { 
+            font-size: var(--font-size-md); 
+            line-height: 1.5; 
+            font-weight: 500;
+        }
+        .text-base { 
+            font-size: var(--font-size-base); 
+            line-height: 1.5; 
+            font-weight: 400;
+        }
+        .text-sm { 
+            font-size: var(--font-size-sm); 
+            line-height: 1.5; 
+            font-weight: 400;
+        }
+        .text-xs { 
+            font-size: var(--font-size-xs); 
+            line-height: 1.4; 
+            font-weight: 500;
         }
         
         .demo-container {
@@ -81,7 +141,7 @@
         }
         
         .card-title {
-            font-size: 16px;
+            font-size: var(--font-size-md);
             font-weight: 600;
             margin: 0 0 4px 0;
             color: #202223;
@@ -126,6 +186,7 @@
         }
         
         .resource-title {
+            font-size: var(--font-size-md);
             font-weight: 500;
             color: #202223;
             margin: 0 0 2px 0;
@@ -133,14 +194,14 @@
         
         .resource-subtitle {
             color: #6d7175;
-            font-size: 13px;
+            font-size: var(--font-size-sm);
             margin: 0;
         }
         
         .badge {
             padding: 4px 8px;
             border-radius: 12px;
-            font-size: 12px;
+            font-size: var(--font-size-xs);
             font-weight: 500;
             text-transform: uppercase;
         }
@@ -175,13 +236,13 @@
         }
         
         .callout-title {
-            font-size: 24px;
+            font-size: var(--font-size-2xl);
             font-weight: 600;
             margin-bottom: 12px;
         }
         
         .callout-description {
-            font-size: 16px;
+            font-size: var(--font-size-md);
             opacity: 0.9;
             margin-bottom: 24px;
             line-height: 1.5;
@@ -193,7 +254,7 @@
             border: none;
             padding: 12px 24px;
             border-radius: 50px;
-            font-size: 14px;
+            font-size: var(--font-size-base);
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -211,7 +272,7 @@
             border: none;
             padding: 12px 24px;
             border-radius: 50px;
-            font-size: 14px;
+            font-size: var(--font-size-base);
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -229,7 +290,7 @@
             color: var(--securify-yellow);
             padding: 12px 24px;
             border-radius: 50px;
-            font-size: 14px;
+            font-size: var(--font-size-base);
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -409,17 +470,17 @@
     <div class="demo-container">
         <div class="stage-indicator">
             <div>
-                <h2 style="margin: 0; color: #202223;">
+                <h2 class="text-xl" style="margin: 0; color: #202223;">
                     <span style="color: var(--securify-purple);">Smart Geofencing</span> Setup
-                    <span class="badge badge-success" style="margin-left: 8px; font-size: 10px;">AI-Powered</span>
+                    <span class="badge badge-success" style="margin-left: 8px;">AI-Powered</span>
                 </h2>
-                <p style="margin: 4px 0 0 0; color: #6d7175;">Intelligent protection based on your customer data</p>
+                <p class="text-sm" style="margin: 4px 0 0 0; color: #6d7175;">Intelligent protection based on your customer data</p>
             </div>
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill" style="width: 25%"></div>
             </div>
             <div>
-                <span style="color: #6d7175;">Step <span id="currentStep">1</span> of 4</span>
+                <span class="text-sm" style="color: #6d7175;">Step <span id="currentStep">1</span> of 4</span>
             </div>
         </div>
 
@@ -428,13 +489,13 @@
             <div class="card">
                 <div class="card-section" style="text-align: center; padding: 60px 20px;">
                     <div class="spinner"></div>
-                    <h3 style="margin: 24px 0 12px 0; color: #202223;">Analyzing your store data</h3>
-                    <p style="color: #6d7175; margin-bottom: 32px;">Scanning customer locations and order history to understand your business geography...</p>
+                    <h3 class="text-lg" style="margin: 24px 0 12px 0; color: #202223;">Analyzing your store data</h3>
+                    <p class="text-base" style="color: #6d7175; margin-bottom: 32px;">Scanning customer locations and order history to understand your business geography...</p>
                     <div style="max-width: 400px; margin: 0 auto;">
                         <div class="progress-bar">
                             <div class="progress-fill" id="analysisProgress" style="width: 10%"></div>
                         </div>
-                        <p style="color: #6d7175; font-size: 13px; margin-top: 8px;" id="analysisStatus">Connecting to Shopify...</p>
+                        <p class="text-sm" style="color: #6d7175; margin-top: 8px;" id="analysisStatus">Connecting to Shopify...</p>
                     </div>
                 </div>
             </div>
@@ -537,12 +598,12 @@
                 <h2 class="callout-title">🛡️ Smart Geofencing Ready</h2>
                 <div style="display: flex; justify-content: center; gap: 40px; margin: 20px 0;">
                     <div style="text-align: center;">
-                        <div style="font-size: 36px; font-weight: bold; color: #fbbf24;" id="threatCounter">4,321</div>
-                        <div style="font-size: 14px; opacity: 0.9;">Monthly Threats Blocked</div>
+                        <div class="text-4xl" style="color: #fbbf24;" id="threatCounter">4,321</div>
+                        <div class="text-base" style="opacity: 0.9;">Monthly Threats Blocked</div>
                     </div>
                     <div style="text-align: center;">
-                        <div style="font-size: 36px; font-weight: bold; color: #10b981;">$3,154</div>
-                        <div style="font-size: 14px; opacity: 0.9;">Monthly Savings</div>
+                        <div class="text-4xl" style="color: #10b981;">$3,154</div>
+                        <div class="text-base" style="opacity: 0.9;">Monthly Savings</div>
                     </div>
                 </div>
                 <p class="callout-description">
@@ -561,24 +622,24 @@
                         <label style="display: flex; align-items: center; padding: 12px; border: 1px solid #e1e3e5; border-radius: 8px; cursor: pointer;">
                             <input type="checkbox" checked style="margin-right: 12px;">
                             <div style="flex: 1;">
-                                <strong>China (1,247 attacks)</strong>
-                                <br><small style="color: #6d7175;">94.2% fraud rate - 0 customers</small>
+                                <strong class="text-base">China (1,247 attacks)</strong>
+                                <br><small class="text-sm" style="color: #6d7175;">94.2% fraud rate - 0 customers</small>
                             </div>
                             <span class="badge badge-critical">Critical</span>
                         </label>
                         <label style="display: flex; align-items: center; padding: 12px; border: 1px solid #e1e3e5; border-radius: 8px; cursor: pointer;">
                             <input type="checkbox" checked style="margin-right: 12px;">
                             <div style="flex: 1;">
-                                <strong>Russia (892 attacks)</strong>
-                                <br><small style="color: #6d7175;">91.8% fraud rate - 0 customers</small>
+                                <strong class="text-base">Russia (892 attacks)</strong>
+                                <br><small class="text-sm" style="color: #6d7175;">91.8% fraud rate - 0 customers</small>
                             </div>
                             <span class="badge badge-critical">Critical</span>
                         </label>
                         <label style="display: flex; align-items: center; padding: 12px; border: 1px solid #e1e3e5; border-radius: 8px; cursor: pointer;">
                             <input type="checkbox" checked style="margin-right: 12px;">
                             <div style="flex: 1;">
-                                <strong>Vietnam (634 attacks)</strong>
-                                <br><small style="color: #6d7175;">87.3% fraud rate - 0 customers</small>
+                                <strong class="text-base">Vietnam (634 attacks)</strong>
+                                <br><small class="text-sm" style="color: #6d7175;">87.3% fraud rate - 0 customers</small>
                             </div>
                             <span class="badge badge-warning">High</span>
                         </label>
@@ -597,8 +658,8 @@
                     <div id="testingInProgress">
                         <div style="text-align: center; padding: 40px 20px;">
                             <div class="spinner"></div>
-                            <h4 style="margin: 24px 0 8px 0; color: #202223;">Running live tests...</h4>
-                            <p style="color: #6d7175; margin: 0;">Using VPN connections to verify blocking works</p>
+                            <h4 class="text-lg" style="margin: 24px 0 8px 0; color: #202223;">Running live tests...</h4>
+                            <p class="text-base" style="color: #6d7175; margin: 0;">Using VPN connections to verify blocking works</p>
                         </div>
                     </div>
                     
@@ -606,8 +667,8 @@
                         <div class="test-result test-success">
                             <span class="test-icon" style="color: #22c55e;">✅</span>
                             <div style="flex: 1;">
-                                <p style="margin: 0; font-weight: 500;">Testing from China</p>
-                                <p style="margin: 0; color: #6d7175; font-size: 13px;">Successfully blocked (503)</p>
+                                <p class="text-base" style="margin: 0; font-weight: 500;">Testing from China</p>
+                                <p class="text-sm" style="margin: 0; color: #6d7175;">Successfully blocked (503)</p>
                             </div>
                             <span class="badge badge-success">Blocked</span>
                         </div>
@@ -615,8 +676,8 @@
                         <div class="test-result test-success">
                             <span class="test-icon" style="color: #22c55e;">✅</span>
                             <div style="flex: 1;">
-                                <p style="margin: 0; font-weight: 500;">Testing from Russia</p>
-                                <p style="margin: 0; color: #6d7175; font-size: 13px;">Successfully blocked (503)</p>
+                                <p class="text-base" style="margin: 0; font-weight: 500;">Testing from Russia</p>
+                                <p class="text-sm" style="margin: 0; color: #6d7175;">Successfully blocked (503)</p>
                             </div>
                             <span class="badge badge-success">Blocked</span>
                         </div>
@@ -624,15 +685,15 @@
                         <div class="test-result test-success">
                             <span class="test-icon" style="color: #22c55e;">✅</span>
                             <div style="flex: 1;">
-                                <p style="margin: 0; font-weight: 500;">Testing from Vietnam</p>
-                                <p style="margin: 0; color: #6d7175; font-size: 13px;">Successfully blocked (503)</p>
+                                <p class="text-base" style="margin: 0; font-weight: 500;">Testing from Vietnam</p>
+                                <p class="text-sm" style="margin: 0; color: #6d7175;">Successfully blocked (503)</p>
                             </div>
                             <span class="badge badge-success">Blocked</span>
                         </div>
                         
                         <div class="banner banner-success" id="successBanner" style="display: none;">
                             <div class="banner-title">Protection is working perfectly!</div>
-                            <p style="margin: 4px 0 0 0;">Your store is now protected from fraudulent traffic. 3 countries successfully blocked.</p>
+                            <p class="text-base" style="margin: 4px 0 0 0;">Your store is now protected from fraudulent traffic. 3 countries successfully blocked.</p>
                         </div>
                         
                         <div style="text-align: right; margin-top: 20px;">
