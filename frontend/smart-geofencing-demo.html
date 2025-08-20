@@ -12,6 +12,18 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
     <style>
+        /* Securify Brand Colors */
+        :root {
+            --securify-purple: #7c3aed;
+            --securify-purple-hover: #6d28d9;
+            --securify-purple-light: #a855f7;
+            --securify-yellow: #fbbf24;
+            --securify-yellow-hover: #f59e0b;
+            --securify-yellow-light: #fde68a;
+            --polaris-primary: #008060;
+            --polaris-primary-hover: #006847;
+        }
+        
         body {
             margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
@@ -36,7 +48,7 @@
         }
         
         .progress-bar {
-            background-color: #e1e3e5;
+            background: linear-gradient(90deg, var(--securify-yellow-light), #e1e3e5);
             border-radius: 4px;
             height: 8px;
             flex: 1;
@@ -45,7 +57,7 @@
         }
         
         .progress-fill {
-            background-color: #008060;
+            background-color: var(--polaris-primary);
             height: 100%;
             border-radius: 4px;
             transition: width 0.5s ease;
@@ -111,7 +123,7 @@
         
         .badge {
             padding: 4px 8px;
-            border-radius: 6px;
+            border-radius: 12px;
             font-size: 12px;
             font-weight: 500;
             text-transform: uppercase;
@@ -120,6 +132,11 @@
         .badge-success {
             background-color: #d1f7c4;
             color: #365314;
+        }
+        
+        .badge-recommended {
+            background-color: var(--securify-yellow-light);
+            color: #92400e;
         }
         
         .badge-critical {
@@ -155,11 +172,11 @@
         }
         
         .button {
-            background-color: #008060;
+            background-color: var(--polaris-primary);
             color: white;
             border: none;
             padding: 12px 24px;
-            border-radius: 6px;
+            border-radius: 50px;
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
@@ -167,18 +184,41 @@
         }
         
         .button:hover {
-            background-color: #006847;
+            background-color: var(--polaris-primary-hover);
+        }
+        
+        .button-secondary {
+            background-color: var(--securify-yellow);
+            color: #1f2937;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .button-secondary:hover {
+            background-color: var(--securify-yellow-hover);
         }
         
         .button-outline {
             background-color: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            color: white;
+            border: 1px solid var(--securify-yellow);
+            color: var(--securify-yellow);
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
             margin-right: 12px;
         }
         
         .button-outline:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: var(--securify-yellow);
+            color: #1f2937;
         }
         
         .two-column {
@@ -190,7 +230,7 @@
         
         .spinner {
             border: 3px solid #f3f3f3;
-            border-top: 3px solid #008060;
+            border-top: 3px solid var(--polaris-primary);
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -269,7 +309,10 @@
     <div class="demo-container">
         <div class="stage-indicator">
             <div>
-                <h2 style="margin: 0; color: #202223;">Smart Geofencing Setup</h2>
+                <h2 style="margin: 0; color: #202223;">
+                    <span style="color: var(--securify-purple);">Smart Geofencing</span> Setup
+                    <span class="badge badge-success" style="margin-left: 8px; font-size: 10px;">AI-Powered</span>
+                </h2>
                 <p style="margin: 4px 0 0 0; color: #6d7175;">Intelligent protection based on your customer data</p>
             </div>
             <div class="progress-bar">
@@ -346,9 +389,7 @@
                     </div>
                     <div class="card-section">
                         <div class="resource-list-item">
-                            <div style="width: 32px; height: 24px; background-color: #ef4444; border-radius: 4px; margin-right: 12px; display: flex; align-items: center; justify-content: center;">
-                                <span style="color: white; font-size: 12px;">⚠️</span>
-                            </div>
+                            <img src="https://flagcdn.com/w40/cn.png" alt="CN" class="country-flag">
                             <div class="resource-content">
                                 <p class="resource-title">China</p>
                                 <p class="resource-subtitle">1,247 attack attempts</p>
@@ -356,9 +397,7 @@
                             <span class="badge badge-critical">High Risk</span>
                         </div>
                         <div class="resource-list-item">
-                            <div style="width: 32px; height: 24px; background-color: #ef4444; border-radius: 4px; margin-right: 12px; display: flex; align-items: center; justify-content: center;">
-                                <span style="color: white; font-size: 12px;">⚠️</span>
-                            </div>
+                            <img src="https://flagcdn.com/w40/ru.png" alt="RU" class="country-flag">
                             <div class="resource-content">
                                 <p class="resource-title">Russia</p>
                                 <p class="resource-subtitle">892 attack attempts</p>
@@ -366,9 +405,7 @@
                             <span class="badge badge-critical">High Risk</span>
                         </div>
                         <div class="resource-list-item">
-                            <div style="width: 32px; height: 24px; background-color: #f59e0b; border-radius: 4px; margin-right: 12px; display: flex; align-items: center; justify-content: center;">
-                                <span style="color: white; font-size: 12px;">⚠️</span>
-                            </div>
+                            <img src="https://flagcdn.com/w40/vn.png" alt="VN" class="country-flag">
                             <div class="resource-content">
                                 <p class="resource-title">Vietnam</p>
                                 <p class="resource-subtitle">634 attack attempts</p>
@@ -376,9 +413,7 @@
                             <span class="badge badge-warning">Medium Risk</span>
                         </div>
                         <div class="resource-list-item">
-                            <div style="width: 32px; height: 24px; background-color: #f59e0b; border-radius: 4px; margin-right: 12px; display: flex; align-items: center; justify-content: center;">
-                                <span style="color: white; font-size: 12px;">⚠️</span>
-                            </div>
+                            <img src="https://flagcdn.com/w40/ng.png" alt="NG" class="country-flag">
                             <div class="resource-content">
                                 <p class="resource-title">Nigeria</p>
                                 <p class="resource-subtitle">567 attack attempts</p>
@@ -399,12 +434,12 @@
         <!-- Stage 3: Smart Recommendations -->
         <div id="stage3" class="stage hidden">
             <div class="callout-card">
-                <h2 class="callout-title">Smart Geofencing Ready</h2>
+                <h2 class="callout-title">🛡️ Smart Geofencing Ready</h2>
                 <p class="callout-description">
                     Block 7 countries sending attacks with zero customers.<br>
                     This will stop 4,321 attack attempts per month and save an estimated $3,154.
                 </p>
-                <button class="button button-outline" onclick="customizeSettings()">Customize Settings</button>
+                <button class="button-outline" onclick="customizeSettings()">Customize Settings</button>
                 <button class="button" onclick="moveToStage4()">Apply Protection</button>
             </div>
             
